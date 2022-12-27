@@ -5,7 +5,6 @@ import styled from 'styled-components';
 export const RecordContainer = styled.View`
     width: 100%;
     height: 10%;
-    flex-direction: row;
     align-items: center;
     margin: 5px;
     background-color: ${Colors.white};

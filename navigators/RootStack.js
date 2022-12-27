@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 //screens
 import Start from './../screens/Start';
-import FirstLab from '../screens/FirstLab';
+import Configurator from '../screens/Configurator';
 import Output from '../screens/Output';
 import Code from '../screens/Code';
 import {Colors} from './../components/constants';
@@ -21,7 +21,7 @@ const RootStack = () => {
                 initialRouteName="Start"
             >
                 <Screen name="Start" component={Start}/>
-                <Screen name="FirstLab" options={changeHeaderTintColor(Colors.white)} component={FirstLab}/>
+                <Screen name="Configurator" options={changeHeaderTintColor(Colors.white)} component={Configurator}/>
                 <Screen name="Code" options={changeHeaderTintColor(Colors.white)} component={Code}/>
                 <Screen name="Output" options={changeHeaderTintColor(Colors.white)} component={Output}/>
             </Navigator>

@@ -14,3 +14,5 @@ export const Colors = {
 export const ConfigNames = {
     FIRST_LAB: 'FIRST_LAB'
 };
+
+export const SEPARATOR = '.';

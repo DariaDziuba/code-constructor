@@ -6,6 +6,8 @@ import {Colors} from '../components/constants';
 import {Configuration} from '../configuration';
 import {ConfigNames} from '../components/constants';
 import {useSelector} from 'react-redux';
+import SyntaxHighlighter from 'react-native-syntax-highlighter';
+import { docco, dark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 import {
     MainContainer,
@@ -23,19 +25,24 @@ const styles = StyleSheet.create({
     }
 })
 
-const Output = () => {
-    const {selectedBlock} = useSelector(state => state.blockReducer);
-    const pageConfigs = Configuration[selectedBlock];
-    const imagePath = './../assets/console/' + pageConfigs.consoleOutput;
-    console.log(imagePath)
+const Output = ({route}) => {
+    const { pageName } = route.params;
+    const pageConfigs = Configuration[pageName];
 
     return (
         <MainContainer>
             <TopicContainer>
                 <MainText>{pageConfigs.topic}</MainText>
             </TopicContainer>
-            <ContentContainer>
-                <Image source={require('./../assets/console/lab1.png')} />
+            <ContentContainer
+                style={{
+                    alignItems : 'stretch',
+                    justifyContent : 'stretch'
+                }}
+            >
+                <SyntaxHighlighter language="javascript" style={docco}>
+                    {pageConfigs.consoleOutput}
+                </SyntaxHighlighter>
             </ContentContainer>
         </MainContainer>
     );

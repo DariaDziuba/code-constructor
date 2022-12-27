@@ -22,13 +22,13 @@ export const TopicContainer = styled.View`
 `;
 
 export const ContentContainer = styled.View`
-    width: 100%;
-    height: 100%;
     padding: 5px;
+    height: 80%;
     background-color: ${Colors.white};
     align-items: center;
     justify-content: center;
     flex: 1;
+    ${'' /* flex-direction: 'row'; */}
 `;
 
 export const MainText = styled.Text`
@@ -44,7 +44,6 @@ export const Button = styled.TouchableOpacity`
     height: 50px;
     ${(props) => `background-color: ${props.disabled ? Colors.lightGrey : props.color || Colors.darkPurple}`};
     border-radius: 5px;
-    justify-content: center;
 `;
 
 export const ButtonText = styled.Text`

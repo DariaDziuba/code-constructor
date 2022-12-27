@@ -15,12 +15,23 @@ import {
 } from '../components/styles/screens/Start.js';
 
 function renderBlocks(onPress) {
-    return Object.keys(Configuration).map(function(configName) {
-        const lab = Configuration[configName];
+    return Object.keys(Configuration).map(function(pageName) {
+        const lab = Configuration[pageName];
         if (lab.show) {
             return (
-                <Button color={Colors.violet} onPress={() => onPress(lab.screenName, configName)} key={configName}>
-                    <ButtonText>{lab.title}</ButtonText>
+                <Button
+                    color={Colors.violet}
+                    onPress={() => onPress(pageName)} key={pageName}
+                    style={{
+                        padding: 5,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexDirection:'row'
+                    }}
+                >
+                    <ButtonText styel={{flex: 1, flexWrap: 'wrap'}}>
+                        {lab.title}
+                    </ButtonText>
                 </Button>
             )
         }
@@ -28,11 +39,8 @@ function renderBlocks(onPress) {
 }
 
 const Start = ({navigation}) => {
-    const dispatch = useDispatch();
-
-    const onPress = (screenName, blockName) => {
-        dispatch(setSelectedBlock(blockName));
-        navigation.navigate(screenName);
+    const onPress = (pageName) => {
+        navigation.navigate('Configurator', {pageName: pageName});
     };
 
     return (

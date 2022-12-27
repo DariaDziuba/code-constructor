@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "stream-examples-app",
-    "slug": "stream-examples-app",
+    "name": "code-configurator",
+    "slug": "code-configurator",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -24,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "expocode.configurator.com"
     },
     "web": {
       "favicon": "./assets/favicon.png"
