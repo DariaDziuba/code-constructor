@@ -41,14 +41,14 @@ export const MainText = styled.Text`
 export const Button = styled.TouchableOpacity`
     margin: 5px;
     width: 80%;
-    height: 50px;
+    padding: 10px;
     ${(props) => `background-color: ${props.disabled ? Colors.lightGrey : props.color || Colors.darkPurple}`};
     border-radius: 5px;
 `;
 
 export const ButtonText = styled.Text`
     text-align: center;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
 
     ${(props) => `color: ${props.color || Colors.white}`}

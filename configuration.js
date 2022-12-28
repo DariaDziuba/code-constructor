@@ -2,7 +2,7 @@ export const Configuration = {
     FIRST_LAB : {
         show: true,
         topic: 'Виконати обчислення виразу за допомогою класу Thread',
-        title: 'Робота з класом Thread',
+        title: '1. Робота з класом Thread',
         consoleOutput: 'Введiть X1:1\n\n' +
             'Введiть X2:2\n\n' +
             'Введiть X3:3\n\n' +
@@ -172,7 +172,7 @@ export const Configuration = {
     SECOND_LAB : {
         show: true,
         topic: 'Виконати обчислення від\'ємних елементів кожного рядку матриці',
-        title: 'Робота з класом ThreadPool teste',
+        title: '2. Робота з класом ThreadPool',
         consoleOutput: '7  8  8  8  2  0 -7  8 -3-10\n' +
             '3 -6 -5 -8  0 -1  4-10  8  2\n' +
             '-5  2 -7 -9  9-10  9 -6 -3 -8\n' +

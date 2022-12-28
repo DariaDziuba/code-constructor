@@ -36,8 +36,7 @@ const Output = ({route}) => {
             </TopicContainer>
             <ContentContainer
                 style={{
-                    alignItems : 'stretch',
-                    justifyContent : 'stretch'
+                    alignItems : 'stretch'
                 }}
             >
                 <SyntaxHighlighter language="javascript" style={docco}>
