@@ -1,4 +1,5 @@
 import React from 'react';
+import {ScrollView, View} from 'react-native';
 import { Colors } from '../components/constants';
 import { Configuration } from '../configuration';
 
@@ -46,7 +47,14 @@ const Start = ({ navigation }) => {
                     justifyContent: 'center'
                 }}
             >
-                {renderBlocks(onPress)}
+                <ScrollView
+                    contentContainerStyle={{flexGrow : 1, justifyContent : 'center'}}
+                    style={{width: '100%', height: '100%'}}
+                >
+                    <View style={{ alignItems: 'center'}}>
+                        {renderBlocks(onPress)}
+                    </View>
+                </ScrollView>
             </ContentContainer>
         </MainContainer>
     );

@@ -21,6 +21,7 @@ const Accordion = (props) => {
     const {selectedItems, setSelectedItems } = props;
     const [expanded, setExpanded] = useState(false);
     const [data, setData] = useState(props.data);
+    const [selectedItemsCount, setSelectedItemsCount] = useState(0);
     const [isBlockChecked, setBlockChecked] = useState(data
         ? data.slice().every((item) => item.value)
         : selectedItems.indexOf(position) > -1);
@@ -46,6 +47,7 @@ const Accordion = (props) => {
         Object.keys(items).forEach((key, subPosition) => {
             processSelectedPoints(newValue, position, subPosition);
             items[key].value = newValue;
+            setSelectedItemsCount(oldValue => newValue ? oldValue + 1 : oldValue - 1);
         });
 
         setData(items);
@@ -87,6 +89,7 @@ const Accordion = (props) => {
         const newValue = typeof value === 'boolean' ? value : !isBlockChecked;
 
         processSelectedPoints(newValue, position, subPosition);
+        setSelectedItemsCount(oldValue => newValue ? oldValue + 1 : oldValue - 1);
 
         info[subPosition].value = !info[subPosition].value
         setData(info)
@@ -104,7 +107,14 @@ const Accordion = (props) => {
                     size={24}
                     color={isBlockChecked ? Colors.lightPurple : Colors.lightGrey}
                 />
-                <Text style={[styles.title]}>{props.title}</Text>
+                <Text style={[styles.title]}>
+                    {props.title}
+                    {data &&
+                        <Text>
+                            ({selectedItemsCount}/{data.length})
+                        </Text>
+                    }
+                </Text>
                 <View>
                     {
                         data &&
