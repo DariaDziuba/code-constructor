@@ -47,8 +47,9 @@ const Accordion = (props) => {
         Object.keys(items).forEach((key, subPosition) => {
             processSelectedPoints(newValue, position, subPosition);
             items[key].value = newValue;
-            setSelectedItemsCount(oldValue => newValue ? oldValue + 1 : oldValue - 1);
         });
+
+        setSelectedItemsCount(oldValue => newValue ? items.length : 0);
 
         setData(items);
         setBlockChecked(newValue);

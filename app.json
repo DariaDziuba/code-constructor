@@ -2,7 +2,7 @@
   "expo": {
     "name": "code-configurator",
     "slug": "code-configurator",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/code-configurator.png",
     "userInterfaceStyle": "light",
@@ -18,7 +18,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "expocode.configurator.com"
     },
     "android": {
       "adaptiveIcon": {
