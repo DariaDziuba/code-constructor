@@ -6,13 +6,9 @@ export const Colors = {
     black: "#000000",
     green: "#10B981",
     red: "#EF4444",
-    darkPurple: "#b460b9",
-    lightPurple: "#e274e9",
-    violet: "#6a2c6e",
-};
-
-export const ConfigNames = {
-    FIRST_LAB: 'FIRST_LAB'
+    darkPurple: "#d089d4",
+    lightPurple: "#fcbeff",
+    violet: "#8f4c93",
 };
 
 export const SEPARATOR = '.';

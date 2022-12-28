@@ -5,46 +5,52 @@ import { SEPARATOR } from '../constants';
 import CustomFlatList from './CustomFlatList';
 import Icon from "react-native-vector-icons/MaterialIcons";
 
-function processCheckedItem(position, value, setAllChecked) {
-    if (value) {
-        setAllChecked(oldArray =>  [...oldArray, position]);
-    } else {
-        setAllChecked(oldArray => oldArray.filter((item) => {
-            return item !== position;
-        }) || []);
-    }
+function processCheckedBlocks(position, value, setCheckedBlocks) {
+    setCheckedBlocks(oldArray => value
+        ? [...oldArray, position]
+        : oldArray.filter((item) => item !== position) || []);
+}
+
+function toggleExpand(setExpanded) {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setExpanded(oldValue => !oldValue);
 }
 
 const Accordion = (props) => {
     const position = props.position;
-    const {selectedPoints, setSelectedPoints }= props;
+    const {selectedItems, setSelectedItems } = props;
     const [expanded, setExpanded] = useState(false);
     const [data, setData] = useState(props.data);
-    const [allChecked, setAllChecked] = useState(data
+    const [isBlockChecked, setBlockChecked] = useState(data
         ? data.slice().every((item) => item.value)
-        : selectedPoints.indexOf(position) > -1);
+        : selectedItems.indexOf(position) > -1);
 
     if (Platform.OS === 'android') {
         UIManager.setLayoutAnimationEnabledExperimental(true);
     }
 
+    /**
+     * Process all subitems and set value
+     * @param {boolean|undefined} value - value which should be set
+     */
     const processAllSubItems = (value) => {
         const items = data && data.slice();
-        const newValue = typeof value === 'boolean' ? value : !allChecked;
+        const newValue = typeof value === 'boolean' ? value : !isBlockChecked;
         if (!items) {
-            setAllChecked(newValue);
-            processCheckedItem(position, newValue, props.setAllChecked);
+            setBlockChecked(newValue);
+            processCheckedBlocks(position, newValue, props.setCheckedBlocks);
             processSelectedPoints(newValue, position);
             return;
         }
 
-        Object.keys(items).forEach((key, index) => {
-            processSelectedPoints(newValue, position, index);
+        Object.keys(items).forEach((key, subPosition) => {
+            processSelectedPoints(newValue, position, subPosition);
             items[key].value = newValue;
         });
+
         setData(items);
-        setAllChecked(newValue);
-        processCheckedItem(position, newValue, props.setAllChecked);
+        setBlockChecked(newValue);
+        processCheckedBlocks(position, newValue, props.setCheckedBlocks);
     }
 
     const isAllChecked = () => {
@@ -53,19 +59,21 @@ const Accordion = (props) => {
             return item.value;
         });
 
-        setAllChecked(isAllChecked);
+        setBlockChecked(isAllChecked);
+        processCheckedBlocks(position, isAllChecked, props.setCheckedBlocks);
     }
 
     const processSelectedPoints = (newValue, position, subPosition) => {
-        setSelectedPoints(selectedPoints =>  {
+        setSelectedItems(previoslySelected => {
                 const key = typeof position === 'number' && typeof subPosition === 'number'
                     ? [position, subPosition].join(SEPARATOR) : position;
-                let result = selectedPoints;
+                let result = previoslySelected;
 
                 if (newValue) {
-                    result = selectedPoints.indexOf(key) > -1 ? selectedPoints : selectedPoints.concat(key);
+                    result = previoslySelected.indexOf(key) > -1
+                        ? previoslySelected : previoslySelected.concat(key);
                 } else {
-                    result = selectedPoints.filter(function(value) {
+                    result = previoslySelected.filter(function(value) {
                         return value !== key;
                     });
                 }
@@ -74,20 +82,15 @@ const Accordion = (props) => {
         })
     }
 
-    const onClick = (position, subPosition, value) => {
+    const subItemOnClick = (position, subPosition, value) => {
         const info = data && data.slice();
-        const newValue = typeof value === 'boolean' ? value : !allChecked;
+        const newValue = typeof value === 'boolean' ? value : !isBlockChecked;
 
         processSelectedPoints(newValue, position, subPosition);
 
         info[subPosition].value = !info[subPosition].value
         setData(info)
         isAllChecked();
-    }
-
-    const toggleExpand = () => {
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-        setExpanded(!expanded);
     }
 
     return (
@@ -99,13 +102,13 @@ const Accordion = (props) => {
                 <Icon
                     name={data ? 'library-add-check' : 'check-box'}
                     size={24}
-                    color={allChecked ? Colors.darkPurple : Colors.lightGrey}
+                    color={isBlockChecked ? Colors.lightPurple : Colors.lightGrey}
                 />
                 <Text style={[styles.title]}>{props.title}</Text>
                 <View>
                     {
                         data &&
-                        <TouchableOpacity style={styles.row} onPress={() => toggleExpand()}>
+                        <TouchableOpacity style={styles.row} onPress={() => toggleExpand(setExpanded)}>
                             <Icon
                                 name={expanded ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
                                 size={25} color={Colors.lightGrey}
@@ -120,8 +123,7 @@ const Accordion = (props) => {
                     <CustomFlatList
                         data={data}
                         position={position}
-                        onListClick={onClick}
-                        allChecked={allChecked}
+                        onListClick={subItemOnClick}
                     />
             }
         </View>
@@ -129,41 +131,12 @@ const Accordion = (props) => {
 }
 
 const styles = StyleSheet.create({
-    container:{
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    textWrapper: {
-        maxWidth: '80%'
-    },
-    button:{
-        width:'100%',
-        height:54,
-        alignItems:'space-between',
-        paddingLeft:35,
-        paddingRight:35,
-        fontSize: 12,
-    },
     title: {
         fontSize: 14,
         flex:1,
         fontWeight:'bold',
         color: Colors.white,
         paddingLeft: 10
-    },
-    itemActive:{
-        fontSize: 12,
-        color: Colors.green,
-    },
-    itemInActive:{
-        fontSize: 12,
-        color: Colors.white,
-    },
-    btnActive:{
-        borderColor: Colors.green,
-    },
-    btnInActive:{
-        borderColor: Colors.grey,
     },
     row: {
         flexDirection: 'row',
@@ -175,26 +148,10 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.violet,
         borderRadius: 7
     },
-    childRow:{
-        flexDirection: 'row',
-        justifyContent:'space-between',
-        backgroundColor: Colors.darkPurple,
-    },
     parentHr:{
         height:1,
         color: Colors.white,
         width:'100%'
-    },
-    childHr:{
-        height:1,
-        backgroundColor: Colors.lightGrey,
-        width:'100%',
-    },
-    colorActive:{
-        borderColor: Colors.green,
-    },
-    colorInActive:{
-        borderColor: Colors.grey,
     }
 });
 

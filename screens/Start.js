@@ -1,8 +1,6 @@
 import React from 'react';
 import { Colors } from '../components/constants';
 import { Configuration } from '../configuration';
-import { setSelectedBlock } from '../redux/actions';
-import { useDispatch } from 'react-redux';
 
 import {
     MainContainer,
@@ -11,7 +9,7 @@ import {
     TopicContainer,
     Button,
     ButtonText,
-} from '../components/styles/screens/Start.js';
+} from '../components/styles/Common.js';
 
 function renderBlocks(onPress) {
     return Object.keys(Configuration).map(function (pageName) {
@@ -39,9 +37,15 @@ const Start = ({ navigation }) => {
     return (
         <MainContainer>
             <TopicContainer>
-                <MainText>Паралельні та розподілені обчислення</MainText>
+                <MainText style={{fontSize: 36}}>Конфігуратор коду</MainText>
             </TopicContainer>
-            <ContentContainer>
+            <ContentContainer
+                style={{
+                    height: '80%',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}
+            >
                 {renderBlocks(onPress)}
             </ContentContainer>
         </MainContainer>

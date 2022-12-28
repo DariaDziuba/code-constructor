@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet} from "react-native";
 import { Colors } from '../constants';
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -7,10 +7,14 @@ const CustomFlatListItem = (props) => {
     const { item } = props;
     const [value, setValue] = useState(item.value);
 
-    const onClick = (position, index) => {
+    useEffect(() => {
+        setValue(item.value);
+    })
+
+    const onClick = (position, subPosition) => {
         const newValue = !value;
         setValue(newValue);
-        props.onListClick(position, index, newValue);
+        props.onListClick(position, subPosition, newValue);
     }
 
     return (
@@ -18,11 +22,11 @@ const CustomFlatListItem = (props) => {
             <TouchableOpacity
                 style={[
                     styles.childRow, styles.button, styles.container,
-                    item.value ? styles.btnActive : styles.btnInActive
+                    value ? styles.btnActive : styles.btnInActive
                 ]}
-                onPress={()=> onClick(props.position, props.index)}
+                onPress={()=> onClick(props.position, props.subPosition)}
             >
-                <Icon name={'check-box'} size={24} color={ item.value ? Colors.violet : Colors.lightGrey } />
+                <Icon name={'check-box'} size={24} color={ value ? Colors.violet : Colors.lightGrey } />
                 <View  style={[styles.textWrapper]}>
                 <Text style={[styles.font, styles.itemInActive]}>
                     {item.key}

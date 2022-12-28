@@ -3,7 +3,6 @@ import { FlatList, View} from 'react-native';
 
 import {Colors} from '../components/constants';
 import {Configuration} from '../configuration';
-import {ConfigNames} from '../components/constants';
 import Accordion from '../components/elements/Acordion';
 
 import {
@@ -14,21 +13,22 @@ import {
     Button,
     ButtonText,
     BlocksContainer
-} from '../components/styles/screens/FirstLab.js';
+} from '../components/styles/Common.js';
 
-const renderAccordians = (blocks, selectedPoints, setSelectedPoints, setAllChecked) => {
+const renderAccordians = (blocks, selectedItems, setSelectedItems, setCheckedBlocks) => {
     const items = [];
     blocks.forEach((item, index) => {
-        let test = item.data && JSON.stringify(item.data);
+        const stringifiedData = item.data && JSON.stringify(item.data);
+        const data = stringifiedData && JSON.parse(stringifiedData);
         items.push(
             <Accordion
                 key = {index}
                 position = {item.position}
                 title = {item.title}
-                data = {test && JSON.parse(test)}
-                setSelectedPoints={setSelectedPoints}
-                selectedPoints={selectedPoints}
-                setAllChecked={setAllChecked}
+                data = {data}
+                setSelectedItems={setSelectedItems}
+                selectedItems={selectedItems}
+                setCheckedBlocks={setCheckedBlocks}
             />
         );
     });
@@ -50,8 +50,8 @@ const VirtualizedList = ({children}) => {
 const Configurator = function ({route, navigation}) {
     const { pageName } = route.params;
     const pageConfigs = Configuration[pageName];
-    const [selectedPoints, setSelectedPoints] = useState([]);
-    const [allChecked, setAllChecked] = useState([]);
+    const [selectedItems, setSelectedItems] = useState([]);
+    const [checkedBlocks, setCheckedBlocks] = useState([]);
 
     return (
         <MainContainer>
@@ -62,18 +62,18 @@ const Configurator = function ({route, navigation}) {
             <ContentContainer>
                 <BlocksContainer style={{height: '60%', width: '100%'}}>
                     <VirtualizedList>
-                        { renderAccordians(pageConfigs.blocks || [], selectedPoints, setSelectedPoints, setAllChecked, allChecked) }
+                        { renderAccordians(pageConfigs.blocks || [], selectedItems, setSelectedItems, setCheckedBlocks) }
                     </VirtualizedList>
                 </BlocksContainer>
                 <View style={{height: '40%', width: '100%', alignItems: 'center'}}>
                     <Button
-                        disabled={!selectedPoints.length}
-                        onPress={() => navigation.navigate('Code', {selectedPoints: selectedPoints, pageName: pageName})}
+                        disabled={!selectedItems.length}
+                        onPress={() => navigation.navigate('Code', {selectedItems: selectedItems, pageName: pageName})}
                     >
-                        <ButtonText disabled={!selectedPoints.length}>Переглянути</ButtonText>
+                        <ButtonText disabled={!selectedItems.length}>Переглянути</ButtonText>
                     </Button>
-                    <Button disabled={allChecked.length !== pageConfigs.blocks.length} color={Colors.white} onPress={() => navigation.navigate('Output', {pageName: pageName})}>
-                        <ButtonText disabled={allChecked.length !== pageConfigs.blocks.length} color={Colors.darkPurple}>Запуск коду</ButtonText>
+                    <Button disabled={checkedBlocks.length !== pageConfigs.blocks.length} color={Colors.white} onPress={() => navigation.navigate('Output', {pageName: pageName})}>
+                        <ButtonText disabled={checkedBlocks.length !== pageConfigs.blocks.length} color={Colors.darkPurple}>Запуск коду</ButtonText>
                     </Button>
                 </View>
             </ContentContainer>

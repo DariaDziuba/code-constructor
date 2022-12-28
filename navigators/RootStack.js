@@ -35,7 +35,6 @@ const screenOptions = {
     },
     headerTintColor: Colors.white,
     headerTransparent: true,
-    headerBackTitle: 'Назад',
     headerBackTitleStyle: {
         fontSize: 18,
         paddingTop: 20

@@ -1,5 +1,5 @@
-import {View, Image, Text, TextInput, TouchableOpacity, ImageBackground} from 'react-native';
-import {Colors} from '../../constants';
+import {View, Image, Text, TextInput, TouchableOpacity} from 'react-native';
+import {Colors} from '../constants';
 import styled from 'styled-components';
 import Constants from 'expo-constants';
 
@@ -32,7 +32,7 @@ export const ContentContainer = styled.View`
 export const MainText = styled.Text`
     color: ${Colors.white};
     text-align: center;
-    font-size: 23px;
+    font-size: 18px;
     font-weight: bold;
 `;
 
